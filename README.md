@@ -20,14 +20,14 @@ Ce TP pratique vous permet de maîtriser les techniques d'optimisation des perfo
 
  ## Concepts Clés
        Problème N+1
-Le problème N+1 se produit lorsque :
-Une requête récupère N entités parentes
-Pour chaque entité, une requête supplémentaire est exécutée pour charger les relations
-Résultat : 1 + N requêtes SQL
-      Solutions :
-Utiliser JOIN FETCH dans les requêtes JPQL
-Utiliser @EntityGraph
-Configurer le fetch strategy approprié
+Le problème N+1 apparaît lorsqu’on récupère une liste d’entités depuis la base de données, par exemple une liste de parents.
+Au lieu de charger directement leurs relations, Hibernate exécute d’abord une requête principale pour récupérer les N entités, puis il exécute une requête supplémentaire pour chaque entité afin de charger ses relations (si elles sont en lazy par exemple).
+On se retrouve donc avec 1 requête initiale + N requêtes supplémentaires, ce qui peut fortement dégrader les performances lorsque N est grand.
+Pour éviter ce problème, on peut :
+Utiliser JOIN FETCH dans les requêtes JPQL afin de charger les relations en une seule requête.
+Utiliser @EntityGraph pour spécifier les associations à charger.
+Adapter la stratégie de chargement (FetchType.EAGER ou LAZY) selon le besoin.
+Ce problème est important à connaître car il impacte directement les performances des applications utilisant JPA/Hibernate.
 
 <img width="876" height="695" alt="image" src="https://github.com/user-attachments/assets/92c077a1-53d9-424e-ba2a-e044a4e3bd02" />
 <img width="1140" height="854" alt="image" src="https://github.com/user-attachments/assets/6ae36a3d-2790-4ddf-b1cb-71823551989d" />
